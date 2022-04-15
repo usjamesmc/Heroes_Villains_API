@@ -6,4 +6,4 @@ class Super(models.Model):
     primary_ability = models.CharField(max_length=255)
     secondary_ability = models.CharField(max_length=255)
     catch_phrase = models.CharField(max_length=255)
-    super_types = ''
+    super_type = models.ForeignKey(Super_Type, on_delete=models.CASCADE)
