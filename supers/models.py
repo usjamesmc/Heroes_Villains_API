@@ -1,4 +1,5 @@
 from django.db import models
+from super_types.models import Super_Type
 
 class Super(models.Model):
     name = models.CharField(max_length=255)
