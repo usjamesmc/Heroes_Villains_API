@@ -3,14 +3,26 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import SuperSerializer
-from .models import Super
+from .models import Super_Type
+from .models import Super 
 
 @api_view(['GET', 'POST'])
-def supers_list(request):
+def type_list(request):  
+    super_types = Super_Type.objects.all()
+    custom_response_dictionary = {}
+    
     if request.method == 'GET':
-       supers = Super.objects.all()
-       serializer = SuperSerializer(supers, many = True)
-       return Response(serializer.data)
+        for super_type in super_types:
+            supers = Super.objects.filter(super_type_id = super_type.id)
+            super_serializer = SuperSerializer(supers, many = True)
+            custom_response_dictionary[super_type.type] = {
+            '':super_serializer.data
+            }
+        return Response(custom_response_dictionary)
+    elif request.method == 'GET' and supers == supers.filter(super_type__type = 'Hero'):
+        serializer = SuperSerializer(supers, many = True)
+        return Response(serializer.data)
+    
     elif request.method == 'POST':
         serializer = SuperSerializer(data = request.data)
         serializer.is_valid(raise_exception = True)
